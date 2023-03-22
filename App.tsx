@@ -1,58 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
+  FlatList,
   SafeAreaView,
-  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
+  TextInput,
   useColorScheme,
   View,
 } from 'react-native';
 
-import { Colors } from 'react-native/Libraries/NewAppScreen';
-
 import Task from './components/Task';
 
+
 function App(): JSX.Element {
+
+  const [toDos, setToDos] = useState([{ id: 1, title: 'eat' }, { id: 2, title: 'sleep' }, { id: 3, title: 'shower' }]);
   const isDarkMode = useColorScheme() === 'dark';
 
 
   return (
-    <SafeAreaView style={ {flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-      />
-      <View>
-        <Text style={styles.headerText}>To Do List</Text>
-      </View>
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        >
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Task text='1'/>
-          <Task text='2'/>
-          <Task text='3'/>
-          <Task text='4'/>
-          <Task text='5'/>
-          <Task text='6'/>
-          <Task text='7'/>
-          <Task text='8'/>
-          <Task text='9'/>
-          <Task text='10'/>
-          <Task text='11'/>
-          <Task text='12'/>
-          <Task text='13'/>
-          <Task text='14'/>
-          <Task text='15'/>
-          <Task text='16'/>
-          <Task text='17'/>
-          <Task text='18'/>
+        <StatusBar
+          barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+        />
+        <View>
+          <Text style={styles.headerText}>To Do List</Text>
         </View>
-      </ScrollView>
+        <FlatList
+          data={toDos}
+          renderItem={({ item }) => <Task text={item.title}/>}
+          />
+        <TextInput style={styles.toDoInput}
+          placeholder='What do you need to do?' />
       </View>
     </SafeAreaView>
   );
@@ -60,16 +41,22 @@ function App(): JSX.Element {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     paddingHorizontal: 20,
-    },
+  },
   headerText: {
     fontSize: 24,
     fontWeight: 'bold',
     alignSelf: 'center',
     paddingVertical: 10
 
+  },
+  toDoInput: {
+    height: 40,
+    borderColor: 'red',
+    borderWidth: 1
   }
-  
+
 });
 
 export default App;
